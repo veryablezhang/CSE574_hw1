@@ -74,14 +74,14 @@ def penguin():
 
     print(Penguin.corr())
 
-    # sns.jointplot(x='bill_length_mm',y='sex', data=Penguin)
-    # py.show()
-    # sns.jointplot(x='bill_depth_mm',y='sex', data=Penguin)
-    # py.show()
-    # sns.jointplot(x='flipper_length_mm',y='sex', data=Penguin)
-    # py.show()
-    # sns.jointplot(x='body_mass_g',y='sex', data=Penguin)
-    # py.show()
+    sns.jointplot(x='bill_length_mm',y='sex', data=Penguin)
+    py.show()
+    sns.jointplot(x='bill_depth_mm',y='sex', data=Penguin)
+    py.show()
+    sns.jointplot(x='flipper_length_mm',y='sex', data=Penguin)
+    py.show()
+    sns.jointplot(x='body_mass_g',y='sex', data=Penguin)
+    py.show()
 
     shuffled = Penguin.sample(frac=1)
     total_rows = Penguin.shape[0]
@@ -146,7 +146,7 @@ class LogitRegression():
         return np.array([1 if p >= 0.5 else 0 for p in self.sigmoid(X)])
 
 if __name__ == "__main__":
-    # wine()
+    wine()
     penguin()
 
 
