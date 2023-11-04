@@ -36,11 +36,11 @@ def wine():
 
     X = X_train.values
     w = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y_train.values)
-    pred = w.T.dot(X_test.values.T)
     print('w: ',w)
-    MSE = 1/y_test.shape[0]*(y_test.values-X_test.values.dot(w)).T.dot(y_test.values-X_test.values.dot(w))
+    MSE = 1/y_train.shape[0]*(y_train.values-X.dot(w)).T.dot(y_train.values-X.dot(w))
     print('MSE: ',MSE)
 
+    pred = w.T.dot(X_test.values.T)
     py.scatter(y_test,pred)
     py.xlabel('Actual pH')
     py.ylabel('Predicted pH')
@@ -96,18 +96,23 @@ def penguin():
     
     print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
-    model = LogitRegression()
-    model.fit(X_train, y_train)
-    loss = model.loss
-    py.plot(np.array(range(model.iter))+1, loss)
-    py.xlabel('Epoch')
-    py.ylabel('Loss')
-    py.show()
+    hyper = [(0.000001, 100000), (0.0001, 10000), (0.01, 1000)]
+    for (lr,iteration) in hyper:
+        print('\n\n learning rate: ', lr, ' iteration: ', iteration)
+        model = LogitRegression(lr,iteration)
+        model.fit(X_train, y_train)
+        print('w: ',model.w)
+        print('b: ',model.b)
+        loss = model.loss
+        py.plot(np.array(range(model.iter))+1, loss)
+        py.xlabel('Epoch')
+        py.ylabel('Loss')
+        py.show()
 
-    pred = model.predict(X_test)
-    corrects = [1 if pred[i]==y_test.values[i] else 0 for i in range(y_test.shape[0])]
-    accuracy =  sum(corrects)/y_test.shape[0]
-    print(accuracy)
+        pred = model.predict(X_test)
+        corrects = [1 if pred[i]==y_test.values[i] else 0 for i in range(y_test.shape[0])]
+        accuracy =  sum(corrects)/y_test.shape[0]
+        print('Acc: ', accuracy)
 
 class LogitRegression():
     def __init__(self, lr=0.000001, iter=100000) -> None:
